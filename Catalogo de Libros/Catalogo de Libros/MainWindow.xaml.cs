@@ -56,46 +56,7 @@ namespace Catalogo_de_Libros
                 gvDatos.Visibility = System.Windows.Visibility.Hidden;
             }
         }
-    
-
-        private void BtnNuevo_Click(object sender, RoutedEventArgs e)
-        {
-            OleDbCommand cmd = new OleDbCommand();
-            if (con.State != ConnectionState.Open)
-                con.Open();
-            cmd.Connection = con;
-
-            if (txtCuenta.Text != "")
-            {
-                if (txtCuenta.IsEnabled == true)
-                {
-                    cmd.CommandText = "insert into PedidosGadiva(Cuenta,Semilla,Color,Cantidad,Comprador,Telefono,Frase) " +
-                        "Values(" + txtCuenta.Text + ",'" + cbSemilla.Text + "','" + cbColor.Text + "','"
-                        + txtCantidad.Text + "','" + txtComprador.Text + "','" + txtTelefono.Text + "','"
-                        + txtFrase.Text + "')";
-                    cmd.ExecuteNonQuery();
-                    MostrarDatos();
-                    MessageBox.Show("Nuevo pedido agregado correctamente...");
-                    LimpiaTodo();
-                }
-                else
-                {
-                    cmd.CommandText = "update PedidosGadiva set Cuenta='" + txtCuenta.Text + "',Semilla='" + cbSemilla.Text +
-                         "',Color='" + cbColor.Text + "',Cantidad='" + txtCantidad.Text + "',Comprador='" + txtComprador.Text + "',Telefono='" + txtTelefono.Text +
-                        "',Frase='" + txtFrase.Text + "' where Cuenta=" + txtCuenta.Text;
-                    cmd.ExecuteNonQuery();
-                    MostrarDatos();
-                    MessageBox.Show("Datos del pedido Actualizados...");
-                    LimpiaTodo();
-                }
-            }
-            else
-            {
-                MessageBox.Show("Favor de poner la Id del pedido");
-            }  
-        }
-    
-
+   
         private void BtnEditar_Click(object sender, RoutedEventArgs e)
         {
             if (gvDatos.SelectedItems.Count > 0)
@@ -117,6 +78,43 @@ namespace Catalogo_de_Libros
             }
         }
 
+          private void BtnNuevo_Click(object sender, RoutedEventArgs e)
+        {
+            OleDbCommand cmd = new OleDbCommand();
+            if (con.State != ConnectionState.Open)
+                con.Open();
+            cmd.Connection = con;
+
+            if (txtCuenta.Text != "")
+            {
+                if (txtCuenta.IsEnabled == true)
+                {
+                    cmd.CommandText = "insert into PedidosGadiva(Cuenta,Semilla,Color,Cantidad,Comprador,Telefono,Frase) " +
+                        "Values(" + txtCuenta.Text + ",'" + cbSemilla.Text + "','" + cbColor.Text + "','"
+                        + txtCantidad.Text + "','" + txtComprador.Text + "','" + txtTelefono.Text + "','"
+                        + txtFrase.Text + "')";
+                    cmd.ExecuteNonQuery();
+                    MostrarDatos();
+                    MessageBox.Show("Nuevo pedido agregado correctamente...");
+                    LimpiaTodo();
+                }
+                else
+                {
+                    cmd.CommandText = "update PedidosGadiva set Semilla='" + cbSemilla.Text + "',Color='" + cbColor.Text +
+                        "',Cantidad='" + txtCantidad.Text + "',Comprador='" + txtComprador.Text + "',Telefono='" + txtTelefono.Text +
+                        "',Frase='" + txtFrase.Text + "' where Cuenta=" + txtCuenta.Text;
+                    cmd.ExecuteNonQuery();
+                    MostrarDatos();
+                    MessageBox.Show("Datos del pedido Actualizados...");
+                    LimpiaTodo();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Favor de poner la Id del pedido");
+            }  
+        }
+
         private void BtnEliminar_Click(object sender, RoutedEventArgs e)
         {
             if (gvDatos.SelectedItems.Count > 0)
@@ -127,7 +125,7 @@ namespace Catalogo_de_Libros
                 if (con.State != ConnectionState.Open)
                     con.Open();
                 cmd.Connection = con;
-               cmd.CommandText = "delete from PedidosGadiva where Id=" + row["Cuenta"].ToString();
+               cmd.CommandText = "delete from PedidosGadiva where Cuenta=" + row["Cuenta"].ToString();
                 cmd.ExecuteNonQuery();
                 MostrarDatos();
                 MessageBox.Show("Pedido cancelado");
